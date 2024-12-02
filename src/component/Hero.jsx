@@ -28,12 +28,10 @@ const Hero = () => {
           </div>
         </div>
         <h1 className="font-poppins  font-semibold ss:text-[68px] text-[52px] text-white ss:leading-[100px] leading-[75px] w-full">
-          Payment Method.
+        Liquidity Management
         </h1>
         <p className={`${styles.paragraph}  max-w-[470px]  my-5`}>
-          Our team of experts uses a methodology to identify the credit cards
-          most likely to fit your needs. We examine annual percentage rates,
-          annual fees.
+          Our team of visionaries employs an innovative approach to curate the perfect liquidity solutions for you. With precision and expertise, we delve into the mechanics of liquidity leasing,
         </p>
       </div>
 

@@ -14,6 +14,8 @@ import {
 } from "./component";
 
 import styles from "./style";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 
 function App() {
   return (
