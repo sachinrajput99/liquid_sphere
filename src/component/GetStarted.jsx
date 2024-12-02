@@ -62,7 +62,7 @@ const GetStarted = () => {
           />
         </div>
         <p className="font-poppins font-medium text-[18px] leading-[23px] ">
-          <span className="text-gradient">collateral Token </span>
+          <span className="text-gradient">Collateral Token </span>
         </p>
       </div>
     </div>
