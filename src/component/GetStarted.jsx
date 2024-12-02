@@ -12,15 +12,16 @@ import { toast } from "react-hot-toast";
 import { LEASECONTRACTADDRESS, LEASEABI, collateralABI } from "../abi/constant";
 
 const GetStarted = () => {
-  const [amount  , setAmount] = useState(null)
+  const [amount, setAmount] = useState(null);
   const { writeContractAsync, isPending } = useWriteContract();
   const CONTRACT_ADDRESS = LEASECONTRACTADDRESS;
 
-  const buyToken = async (proposalid, collateraltoken) => {
+  const [value, setValue] = useState(null);
+  console.log(value);
+
+  const buyToken = async () => {
     try {
-    // take the Input from the User as in ETH :->
-
-
+      // take the Input from the User as in ETH :->
 
       await toast.promise(
         (async () => {
@@ -29,7 +30,7 @@ const GetStarted = () => {
             abi: LEASEABI,
             functionName: "buyCollateralTokens",
             args: [],
-            value : amount
+            value: amount,
           });
         })(),
         {
@@ -43,27 +44,26 @@ const GetStarted = () => {
     }
   };
 
+  
 
   return (
-    <div
-      className={`${styles.flexCenter} w-[140px] h-[140px] rounded-full bg-blue-gradient cursor-pointer p-[2px]  active:scale-90`}
-    >
-      <div
-        className={`${styles.flexCenter} flex-col bg-primary w-[100%] h-[100%] rounded-full`}
-      >
-        <div className={`${styles.flexStart} flex-row`}>
-          <p className="font-poppins font-medium text-[18px] leading-[23px] mr-2 ">
-            <span className="text-gradient">Buy </span>
-          </p>
-          <img
-            src={arrowUp}
-            alt="arrow"
-            className="w-[23px] h-[23px] object-contain"
+    <div className="bgred w-[300px] ml-36 ">
+      <div>
+        <form action="" onSubmit={buyToken} className="flex flex-col gap-5">
+          <input
+            className="text-white bg-[rgba(65,199,217,0.58)] bg-opacity-60 backdrop-blur text-lg font-semibold p-2 rounded-md"
+            type="number"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
           />
-        </div>
-        <p className="font-poppins font-medium text-[18px] leading-[23px] ">
-          <span className="text-gradient">Collateral Token </span>
-        </p>
+
+          <button
+            type="submit"
+            className="bg-blue-gradient px-4 py-2 hover:bg-gradient-to-r hover:from-[rgb(99,232,255)] hover:to-[rgb(59,193,211)] font-poppins font-medium text-[18px] text-primary outline-none active:scale-90 rounded-[10px]"
+          >
+            Buy Collateral Token
+          </button>
+        </form>
       </div>
     </div>
   );
