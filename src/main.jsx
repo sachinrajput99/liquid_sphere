@@ -44,8 +44,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 <QueryClientProvider client={queryClient}>
 <RainbowKitProvider showRecentTransactions={true}>
   <React.StrictMode>
-  <ConnectButton />
         <App > 
+  <ConnectButton />
          
         </App>
           <Toaster position="bottom-right" reverseOrder={true} />

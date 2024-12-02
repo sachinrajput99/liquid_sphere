@@ -17,13 +17,13 @@ import styles from "./style";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 
-function App() {
+function App({children}) {
   return (
     <>
-      <div className={`bg-primary w-full overflow-hidden `}>
+      <div className={`bg-primary w-full overflow-hidden mb-[-25px] `}>
         <div className={`${styles.paddingX} ${styles.flexCenter}`}>
           <div className={`${styles.boxWidth}`}>
-            <Navbar />
+            <Navbar ConnectButton={children}/>
           </div>
         </div>
         <div className={`${styles.paddingX} ${styles.flexCenter}`}>

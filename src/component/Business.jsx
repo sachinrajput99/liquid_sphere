@@ -60,10 +60,13 @@ const Business = () => {
   return (
     <section id="features" className={layout.section}>
       <div className={layout.sectionInfo}>
+        <div className="mb-5">
+
         <h2 className={styles.heading2}>
           You do the business.
           <br className="sm:block hidden" /> we'll handle the money
         </h2>
+        </div>
         <div className="flex flex-col gap-3 mb-4">
           <p>
             <span className="font-bold">Loan Amount:</span> The Borrower requests ${amount}, which will be provided upon agreement.
@@ -92,20 +95,7 @@ const Business = () => {
             {/* Form with onSubmit */}
             <form onSubmit={handleSubmit}>
               <div className="grid w-full items-center gap-3">
-                <div className="flex flex-row justify-around items-center gap-4">
-                  <label htmlFor="proposal" className="font-semibold mt-2 text-white text-xl">
-                    Proposal
-                  </label>
-                  <select
-                    id="proposal"
-                    className="p-2 w-full rounded-md bg-gray-800 text-white"
-                    value={proposal}
-                    onChange={(e) => setProposal(e.target.value)}
-                  >
-                    <option value="lend">Lend</option>
-                    <option value="borrow">Borrow</option>
-                  </select>
-                </div>
+                {/*  */}
                 <div className="flex flex-col space-y-1.5">
                   <input
                     className="text-white bg-[rgba(65,199,217,0.58)] bg-opacity-60 backdrop-blur text-lg font-semibold p-2 rounded-md"
@@ -115,13 +105,7 @@ const Business = () => {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                   />
-                  <input
-                    className="text-white bg-[rgba(65,199,217,0.58)] bg-opacity-60 backdrop-blur text-lg font-semibold p-2 rounded-md"
-                    id="description"
-                    placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
+                 
                   <input
                     className="text-white bg-[rgba(65,199,217,0.58)] bg-opacity-60 backdrop-blur text-lg font-semibold p-2 rounded-md"
                     id="interest"

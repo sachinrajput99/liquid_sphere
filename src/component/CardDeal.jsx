@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { card } from "../assets";
+import { card1 } from "../assets";
 import styles, { layout } from "../style";
 
 import {
@@ -17,7 +17,7 @@ const CardDeal = () => {
   const { writeContractAsync, isPending } = useWriteContract();
   const CONTRACT_ADDRESS = LEASECONTRACTADDRESS;
 
-  // All list of proposals 
+  // All list of proposals
   const {
     data: ListofallProsposals,
     isError: isErroroccur,
@@ -32,7 +32,7 @@ const CardDeal = () => {
   // State to track active and accepted proposals
   const [activeProposals, setActiveProposals] = useState([]);
   const [acceptedProposals, setAcceptedProposals] = useState([]);
-console.log(">>>" , ListofallProsposals)
+  console.log(">>>", ListofallProsposals);
   // Effect to filter proposals
   useEffect(() => {
     if (ListofallProsposals) {
@@ -44,8 +44,8 @@ console.log(">>>" , ListofallProsposals)
 
       // Filter accepted proposals for the current user
       const userAcceptedProposals = ListofallProsposals.filter(
-        (proposal) => 
-          proposal.acceptedBorrower.toLowerCase() === address?.toLowerCase() && 
+        (proposal) =>
+          proposal.acceptedBorrower.toLowerCase() === address?.toLowerCase() &&
           !proposal.isActive
       );
       setAcceptedProposals(userAcceptedProposals);
@@ -76,6 +76,9 @@ console.log(">>>" , ListofallProsposals)
 
   const RepayLoan = async (proposalid) => {
     try {
+      const amount = prompt("Please enter the repayment Amount in the ETH");
+      const amountinwei = parseUnits(amount.toString(), 18);
+
       await toast.promise(
         (async () => {
           const { hash } = await writeContractAsync({
@@ -83,6 +86,7 @@ console.log(">>>" , ListofallProsposals)
             abi: LEASEABI,
             functionName: "repayLoan",
             args: [proposalid],
+            value: amountinwei
           });
         })(),
         {
@@ -100,11 +104,13 @@ console.log(">>>" , ListofallProsposals)
     <section className={layout.section}>
       <div className={layout.sectionInfo}>
         <h2 className={styles.heading2}>
-          Find a better deal <br className="sm:block hidden" /> in a few easy steps.
+          Find a better deal <br className="sm:block hidden" /> in a few easy
+          steps.
         </h2>
 
         {/* Proposal Section */}
-        <div className="mt-8">
+        {/* changes to madde */}
+        <div className="mt-8  w-[90%]">
           <hr className="font-bold mb-6" />
           <div className="flex justify-center items-center">
             <div className="bg-black bg-opacity-30 w-full max-w-[1000px] p-6 rounded-lg shadow-lg">
@@ -116,8 +122,8 @@ console.log(">>>" , ListofallProsposals)
                     <p className="text-white">Loading proposals...</p>
                   ) : activeProposals.length > 0 ? (
                     activeProposals.map((proposal) => (
-                      <div 
-                        key={proposal.proposalId} 
+                      <div
+                        key={proposal.proposalId}
                         className="mb-4 bg-gray-800 p-4 rounded-lg"
                       >
                         <p className="mb-3 text-white">
@@ -125,14 +131,20 @@ console.log(">>>" , ListofallProsposals)
                           <br />
                           Interest Rate: {proposal.interestRate.toString()}%
                           <br />
-                          Lease Amount: {formatUnits(proposal.lendingAmount, 18)} XFI
+                          Lease Amount:{" "}
+                          {formatUnits(proposal.lendingAmount, 18)} XFI
                           <br />
-                          Collateral Amount: {formatUnits(proposal.requiredCollateralAmount, 18)} Tokens
+                          Collateral Amount:{" "}
+                          {formatUnits(
+                            proposal.requiredCollateralAmount,
+                            18
+                          )}{" "}
+                          Tokens
                         </p>
-                        <button 
-                          onClick={() => 
+                        <button
+                          onClick={() =>
                             Acceptproposal(
-                              proposal.proposalId, 
+                              proposal.proposalId,
                               proposal.requiredCollateralAmount
                             )
                           }
@@ -157,8 +169,8 @@ console.log(">>>" , ListofallProsposals)
                     <p className="text-white">Loading accepted loans...</p>
                   ) : acceptedProposals.length > 0 ? (
                     acceptedProposals.map((proposal) => (
-                      <div 
-                        key={proposal.proposalId} 
+                      <div
+                        key={proposal.proposalId}
                         className="mb-4 bg-gray-800 p-4 rounded-lg"
                       >
                         <p className="mb-3 text-white">
@@ -166,9 +178,10 @@ console.log(">>>" , ListofallProsposals)
                           <br />
                           Interest Rate: {proposal.interestRate}%
                           <br />
-                          Lending Amount: {formatUnits(proposal.lendingAmount, 18)} XFI
+                          Lending Amount:{" "}
+                          {formatUnits(proposal.lendingAmount, 18)} XFI
                         </p>
-                        <button 
+                        <button
                           onClick={() => RepayLoan(proposal.proposalId)}
                           className="bg-blue-gradient px-4 py-2 hover:bg-gradient-to-r hover:from-[#63e8ff] hover:to-[#3bc1d3] font-poppins font-medium text-[18px] text-primary outline-none active:scale-90 rounded-[10px]"
                         >
@@ -185,10 +198,14 @@ console.log(">>>" , ListofallProsposals)
           </div>
         </div>
       </div>
-      
+
       {/* Image Section */}
       <div className={layout.sectionImg}>
-        <img src={card} alt="card" className="w-full h-full" />
+        <img
+          src={card1}
+          alt="card"
+          className="w-full h-[73%] hidden sm:block"
+        />
       </div>
     </section>
   );
