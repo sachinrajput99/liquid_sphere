@@ -19,9 +19,12 @@ const GetStarted = () => {
   const [value, setValue] = useState(null);
   console.log(value);
 
-  const buyToken = async () => {
+  const buyToken = async (e) => {
     try {
       // take the Input from the User as in ETH :->
+      e.preventDefault(); // Prevent default form submission behavior
+
+      console.log("checking that why i cannot get the tokens" , value);
 
       await toast.promise(
         (async () => {
@@ -30,7 +33,7 @@ const GetStarted = () => {
             abi: LEASEABI,
             functionName: "buyCollateralTokens",
             args: [],
-            value: amount,
+            value: value,
           });
         })(),
         {
@@ -54,7 +57,7 @@ const GetStarted = () => {
             className="text-white bg-[rgba(65,199,217,0.58)] bg-opacity-60 backdrop-blur text-lg font-semibold p-2 rounded-md"
             type="number"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) =>   setValue(e.target.value)}
           />
 
           <button
