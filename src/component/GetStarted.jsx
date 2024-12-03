@@ -26,15 +26,30 @@ const GetStarted = () => {
       return;
     }
 
+<<<<<<< HEAD
     try {
+=======
+  const buyToken = async (e) => {
+    try {
+      // take the Input from the User as in ETH :->
+      e.preventDefault(); // Prevent default form submission behavior
+
+      console.log("checking that why i cannot get the tokens" , value);
+
+>>>>>>> 45300162aa1577bab8f12fe7596c12aa3c179a8d
       await toast.promise(
         (async () => {
           const response = await writeContractAsync({
             address: CONTRACT_ADDRESS,
             abi: LEASEABI,
             functionName: "buyCollateralTokens",
+<<<<<<< HEAD
             args: [], // Adjust args if required
             value: parseEther(amount), // Parse ETH amount to wei
+=======
+            args: [],
+            value: value,
+>>>>>>> 45300162aa1577bab8f12fe7596c12aa3c179a8d
           });
           console.log("type of response", typeof response);
 
@@ -70,11 +85,16 @@ const GetStarted = () => {
           <input
             className="text-white bg-[rgba(65,199,217,0.58)] bg-opacity-60 backdrop-blur text-lg font-semibold p-2 rounded-md"
             type="number"
+<<<<<<< HEAD
             placeholder="Enter amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)} // Update amount state directly
             min="0.01" // Ensure the value is greater than 0.01 ETH (or your desired minimum)
             step="any" // Allow for decimals
+=======
+            value={value}
+            onChange={(e) =>   setValue(e.target.value)}
+>>>>>>> 45300162aa1577bab8f12fe7596c12aa3c179a8d
           />
 
           <button
