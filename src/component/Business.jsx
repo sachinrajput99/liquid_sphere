@@ -58,7 +58,7 @@ const Business = () => {
         }
       );
     } catch (err) {
-      toast.error(err.message);
+      console.log("Error in catch Block" , err);
     }
   };
 

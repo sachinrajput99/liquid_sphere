@@ -76,7 +76,7 @@ const CardDeal = () => {
         }
       );
     } catch (err) {
-      toast.error(err.message);
+     console.log("Error in Catch :" , err);
     }
   };
 
@@ -98,11 +98,16 @@ const CardDeal = () => {
         {
           loading: `Repaying loan...`,
           success: () => `Loan repayment successful!`,
-          error: (error) => `Repayment failed: ${error.message}`,
+          error: (err) => {
+            // new function for toast error
+            const jsonOutput = parseErrorString(err.message);
+
+            return jsonOutput.errorType; // Return a clean error message for the toast
+          },
         }
       );
     } catch (err) {
-      toast.error(err.message);
+      console.log("Error in catch:" , err);
     }
   };
 
