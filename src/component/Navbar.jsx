@@ -1,6 +1,17 @@
 import React from "react";
+import {
+  useAccount,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+  useReadContract,
+} from "wagmi";
+import { Contract, formatUnits, parseEther, parseUnits } from "ethers";
+import { toast } from "react-hot-toast";
+import { LEASECONTRACTADDRESS, LEASEABI, collateralABI } from "../abi/constant";
 
 const Navbar = ({ ConnectButton }) => {
+
+
   return (
     <>
       <div className="text-white">
@@ -12,7 +23,7 @@ const Navbar = ({ ConnectButton }) => {
               <div className="flex flex-row justify-center items-center gap-4">
                 {" "}
                 {ConnectButton}
-                <p className="text-white text-xl font-semibold ">balance</p>
+                {/* <p className="text-white text-xl font-semibold ">balance</p> */}
               </div>
             </div>
           </div>
