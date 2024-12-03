@@ -11,50 +11,70 @@ import { formatUnits, parseEther, parseUnits } from "ethers";
 import { toast } from "react-hot-toast";
 import { LEASECONTRACTADDRESS, LEASEABI, collateralABI } from "../abi/constant";
 
+import {parseErrorString} from "../utils/parseErrorString"
 const GetStarted = () => {
-  const [amount, setAmount] = useState(null);
+  const [amount, setAmount] = useState(""); // Start with an empty string for the amount
   const { writeContractAsync, isPending } = useWriteContract();
   const CONTRACT_ADDRESS = LEASECONTRACTADDRESS;
 
-  const [value, setValue] = useState(null);
-  console.log(value);
+ 
+  const buyToken = async (e) => {
+    e.preventDefault(); // Prevent default form submission
 
-  const buyToken = async () => {
+    if (!amount || parseFloat(amount) <= 0) {
+      toast.error("Please enter an amount greater than zero");
+      return;
+    }
+
     try {
-      // take the Input from the User as in ETH :->
-
       await toast.promise(
         (async () => {
-          const { hash } = await writeContractAsync({
+          const response = await writeContractAsync({
             address: CONTRACT_ADDRESS,
             abi: LEASEABI,
             functionName: "buyCollateralTokens",
-            args: [],
-            value: amount,
+            args: [], // Adjust args if required
+            value: parseEther(amount), // Parse ETH amount to wei
           });
+          console.log("type of response", typeof response);
+
+          // console.log(Transaction hash: ${response.hash});
+          return response; // Return response to indicate success
         })(),
         {
-          loading: `Approving token ...`,
-          success: () => `Approval successful!`,
-          error: (error) => `Approval failed: ${error.message}`,
+          loading: "Processing transaction...",
+          success: "Transaction successful!",
+          error: (err) => {
+            // new function for toast error 
+            const jsonOutput = parseErrorString(err.message);
+           
+            return jsonOutput.errorType; // Return a clean error message for the toast
+          },
         }
       );
     } catch (err) {
-      toast.error(err.message);
+      // Extra fallback for unexpected errors
+      // Extra fallback for unexpected errors
+      console.log("Unexpected error:", err);
+      // console.log("type error:", typeof err);
+
+
+      
     }
   };
-
-  
 
   return (
     <div className="bgred w-[300px] ml-36 ">
       <div>
-        <form action="" onSubmit={buyToken} className="flex flex-col gap-5">
+        <form onSubmit={buyToken} className="flex flex-col gap-5">
           <input
             className="text-white bg-[rgba(65,199,217,0.58)] bg-opacity-60 backdrop-blur text-lg font-semibold p-2 rounded-md"
             type="number"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            placeholder="Enter amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)} // Update amount state directly
+            min="0.01" // Ensure the value is greater than 0.01 ETH (or your desired minimum)
+            step="any" // Allow for decimals
           />
 
           <button

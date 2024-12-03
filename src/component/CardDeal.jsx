@@ -11,6 +11,7 @@ import {
 import { formatUnits, parseEther, parseUnits } from "ethers";
 import { toast } from "react-hot-toast";
 import { LEASECONTRACTADDRESS, LEASEABI, collateralABI } from "../abi/constant";
+import { parseErrorString } from "../utils/parseErrorString";
 
 const CardDeal = () => {
   const { address } = useAccount();
@@ -66,7 +67,12 @@ const CardDeal = () => {
         {
           loading: `Approving token ...`,
           success: () => `Approval successful!`,
-          error: (error) => `Approval failed: ${error.message}`,
+          error: (err) => {
+            // new function for toast error
+            const jsonOutput = parseErrorString(err.message);
+
+            return jsonOutput.errorType; // Return a clean error message for the toast
+          },
         }
       );
     } catch (err) {
@@ -86,7 +92,7 @@ const CardDeal = () => {
             abi: LEASEABI,
             functionName: "repayLoan",
             args: [proposalid],
-            value: amountinwei
+            value: amountinwei,
           });
         })(),
         {

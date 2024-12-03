@@ -8,7 +8,8 @@ import {
 } from "wagmi";
 import { formatUnits, parseEther, parseUnits } from "ethers";
 import { toast } from "react-hot-toast";
-import {LEASECONTRACTADDRESS , LEASEABI , collateralABI  } from "../abi/constant";
+import { LEASECONTRACTADDRESS, LEASEABI, collateralABI } from "../abi/constant";
+import { parseErrorString } from "../utils/parseErrorString";
 
 const Business = () => {
   // State for form inputs
@@ -28,7 +29,7 @@ const Business = () => {
       alert("Please provide a valid lease  amount.");
       return;
     }
-    const lendingAmount  = parseUnits(amount.toString() , 18)
+    const lendingAmount = parseUnits(amount.toString(), 18);
     const proposalFeePercentage = 1n;
     const proposalFee = (lendingAmount * proposalFeePercentage) / 100n;
     const totalAmount = lendingAmount + proposalFee;
@@ -41,50 +42,63 @@ const Business = () => {
             address: CONTRACT_ADDRESS,
             abi: LEASEABI,
             functionName: "createLendingProposal",
-            args: [ parseUnits(amount.toString() , 18) , 0 , interest, collateral],
+            args: [parseUnits(amount.toString(), 18), 0, interest, collateral],
             value: totalAmount.toString(),
           });
         })(),
         {
           loading: `Approving token ...`, // Loading state message
           success: () => `Approval successful! Transaction Hash:`, // Success state message with the hash
-          error: (error) => `Approval failed: ${error.message}`, // Error state message
+          error: (err) => {
+            // new function for toast error
+            const jsonOutput = parseErrorString(err.message);
+
+            return jsonOutput.errorType; // Return a clean error message for the toast
+          },
         }
       );
     } catch (err) {
       toast.error(err.message);
     }
-
   };
 
   return (
     <section id="features" className={layout.section}>
       <div className={layout.sectionInfo}>
         <div className="mb-5">
-
-        <h2 className={styles.heading2}>
-          You do the business.
-          <br className="sm:block hidden" /> we'll handle the money
-        </h2>
+          <h2 className={styles.heading2}>
+            You do the business.
+            <br className="sm:block hidden" /> we'll handle the money
+          </h2>
         </div>
         <div className="flex flex-col gap-3 mb-4">
           <p>
-            <span className="font-bold">Loan Amount:</span> The Borrower requests ${amount}, which will be provided upon agreement.
+            <span className="font-bold">Loan Amount:</span> The Borrower
+            requests ${amount}, which will be provided upon agreement.
           </p>
           <p>
-            <span className="font-bold">Interest Rate:</span> The loan will accrue interest at {interest}% annually, calculated on the principal amount.
+            <span className="font-bold">Interest Rate:</span> The loan will
+            accrue interest at {interest}% annually, calculated on the principal
+            amount.
           </p>
           <p>
-            <span className="font-bold">Collateral:</span> The Borrower will pledge {collateral} as security for the loan. The Lender holds rights to the collateral in case of default.
+            <span className="font-bold">Collateral:</span> The Borrower will
+            pledge {collateral} as security for the loan. The Lender holds
+            rights to the collateral in case of default.
           </p>
           <p>
-            <span className="font-bold">Repayment Terms:</span> The loan will be repaid in [installments/lump sum] over [loan term]. Payments are due on agreed-upon dates.
+            <span className="font-bold">Repayment Terms:</span> The loan will be
+            repaid in [installments/lump sum] over [loan term]. Payments are due
+            on agreed-upon dates.
           </p>
           <p>
-            <span className="font-bold">Late Payment Penalties:</span> A fee of [amount/percentage] will apply for missed payments, with possible forfeiture of collateral in case of continued default.
+            <span className="font-bold">Late Payment Penalties:</span> A fee of
+            [amount/percentage] will apply for missed payments, with possible
+            forfeiture of collateral in case of continued default.
           </p>
           <p>
-            <span className="font-bold">Purpose of Loan:</span> The Borrower may use the loan for {description}.
+            <span className="font-bold">Purpose of Loan:</span> The Borrower may
+            use the loan for {description}.
           </p>
         </div>
       </div>
@@ -105,7 +119,7 @@ const Business = () => {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                   />
-                 
+
                   <input
                     className="text-white bg-[rgba(65,199,217,0.58)] bg-opacity-60 backdrop-blur text-lg font-semibold p-2 rounded-md"
                     id="interest"
